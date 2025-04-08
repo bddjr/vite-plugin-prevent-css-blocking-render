@@ -11,9 +11,7 @@ npm i vite-plugin-prevent-css-blocking-render
 ```ts
 import preventCSSBlockingRender from 'vite-plugin-prevent-css-blocking-render'
 
-// https://vite.dev/config/
 export default defineConfig({
-  base: './',
   plugins: [
     vue(),
     vueJsx(),

@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-prevent-css-blocking-render",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "bddjr",
   "main": "dist/main.js",
   "types": "dist/main.d.ts",
