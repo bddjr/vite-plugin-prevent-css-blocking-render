@@ -1,0 +1,15 @@
+{
+    "include": [
+        "*.js"
+    ],
+    "exclude": [
+        "node_modules",
+        "*.d.ts"
+    ],
+    "compilerOptions": {
+        "checkJs": true,
+        "declaration": true,
+        "emitDeclarationOnly": true,
+        "skipLibCheck": true
+    },
+}
