@@ -1,0 +1,23 @@
+{
+  "name": "vite-plugin-prevent-css-blocking-render",
+  "version": "0.0.1",
+  "author": "bddjr",
+  "main": "main.js",
+  "type": "module",
+  "files": [
+    "main.js"
+  ],
+  "keywords": [
+    "prevent-css-blocking-render",
+    "css",
+    "style",
+    "stylesheet",
+    "blocking",
+    "render"
+  ],
+  "license": "Unlicense",
+  "packageManager": "pnpm@10.6.5",
+  "dependencies": {
+    "vite": ">=6.2.5"
+  }
+}
