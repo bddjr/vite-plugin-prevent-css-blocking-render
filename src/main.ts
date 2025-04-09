@@ -18,9 +18,9 @@ export function preventCSSBlockingRender(): Plugin {
             {
                 let stylesheet = ''
                 html = html.replace(
-                    /<link rel="stylesheet"([^>]*?>)/g,
-                    (match, p1: string) => {
-                        stylesheet += `<link prevent-css-blocking-render rel="preload" as="style"${p1}`
+                    /<link([^>]*?\s)rel="stylesheet"([^>]*?>)/g,
+                    (match, $1: string, $2: string) => {
+                        stylesheet += `<link ${$1}prevent-css-blocking-render rel="preload" as="style"${$2}`
                         return ''
                     },
                 )
