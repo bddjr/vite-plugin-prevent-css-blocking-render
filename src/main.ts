@@ -26,7 +26,7 @@ export function preventCSSBlockingRender(): Plugin {
                 )
                 if (stylesheet) {
                     html = html.replace(/(?=<script)/, stylesheet)
-                    // enable stylesheet
+                    // enable stylesheet after body loaded
                     html = html.replace(
                         /(?=<\/body>)/,
                         `<script>document.querySelectorAll('link[prevent-css-blocking-render]').forEach(function(e){e.rel='stylesheet'})</script>`,
