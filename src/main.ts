@@ -1,39 +1,48 @@
 import { Plugin } from 'vite'
+import { JSDOM } from 'jsdom'
 
 export function preventCSSBlockingRender(): Plugin {
     return {
         name: 'prevent-css-blocking-render',
-        enforce: 'post',
+        enforce: 'post', // only run on build
         transformIndexHtml(html) {
-            // link preload after script
-            {
-                let preload = ''
-                html = html.replace(/<link\s[^>]*?rel="preload"[^>]*?>/g, (match) => {
-                    preload += match
-                    return ''
-                })
-                html = html.replace(/(?=<\/head>)/, preload)
-            }
-            // link stylesheet before script
-            {
-                let stylesheet = ''
-                html = html.replace(
-                    /<link([^>]*?\s)rel="stylesheet"([^>]*?>)/g,
-                    (match, $1: string, $2: string) => {
-                        stylesheet += `<link ${$1}prevent-css-blocking-render rel="preload" as="style"${$2}`
-                        return ''
-                    },
-                )
-                if (stylesheet) {
-                    html = html.replace(/(?=<script)/, stylesheet)
-                    // enable stylesheet after body loaded
-                    html = html.replace(
-                        /(?=<\/body>)/,
-                        `<script>document.querySelectorAll('link[prevent-css-blocking-render]').forEach(function(e){e.rel='stylesheet'})</script>`,
-                    )
+            const dom = new JSDOM(html)
+            const { document } = dom.window
+            const links = document.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]')
+            if (links.length === 0)
+                return html
+
+            document.head.insertAdjacentHTML(
+                'afterbegin',
+                `<script>document.head.querySelectorAll('link[prevent-css-blocking-render]').forEach(function(e){e.rel='stylesheet'})</script>`
+            )
+            document.head.prepend(...links.values().map((e) => {
+                e.remove()
+                const newLink = document.createElement('link')
+                newLink.setAttribute('prevent-css-blocking-render', '')
+                for (const { name, value } of e.attributes) {
+                    switch (name) {
+                        case 'rel':
+                            newLink.rel = 'preload'
+                            newLink.setAttribute('as', 'style')
+                            break
+                        case 'as':
+                        case 'blocking':
+                            break
+                        default:
+                            newLink.setAttribute(name, value)
+                    }
                 }
+                return newLink
+            }))
+
+            const charset = document.querySelector('meta[charset]')
+            if (charset) {
+                charset.remove()
+                document.head.prepend(charset)
             }
-            return html
+
+            return dom.serialize()
         },
     }
 }

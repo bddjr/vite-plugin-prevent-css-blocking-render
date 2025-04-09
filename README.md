@@ -19,8 +19,3 @@ export default defineConfig({
     // Add plugin:
     preventCSSBlockingRender(),
 ```
-
-<br>
-
-> [!WARNING]  
-> If you have added the `@sergeymakinen/vite-plugin-html-minimize` plugin, you must place the current plugin after `htmlMinimize`; otherwise, the current plugin will not work properly.
