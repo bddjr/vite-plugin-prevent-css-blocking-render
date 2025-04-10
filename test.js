@@ -10,13 +10,15 @@ const html = `
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script type="module" src=""></script>
-    <link rel="stylesheet" crossorigin href="1.css">
-    <link rel="stylesheet" crossorigin href="2.css">
+    <script type="module" src="/assets/index-xxxxxxxx.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-xxxxxxxx.css">
+    <link rel="stylesheet" crossorigin href="/assets/about-xxxxxxxx.css">
 </head>
 <body>
-    test
+    <div id="app"></div>
 </body>
 </html>`
 
-console.log(await preventCSSBlockingRender().transformIndexHtml(html))
+const output = await preventCSSBlockingRender().transformIndexHtml(html)
+
+console.log(output)
